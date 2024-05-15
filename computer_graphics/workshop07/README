@@ -1,0 +1,16 @@
+
+Sterowanie:
+  
+  myszka -- obrót kamery
+  Q/E -- zoom
+  spacja -- offset tekstury (szumu)
+  = -- zmniejszenie kąta widzenia
+  - -- zwiększenie kąta widzenia
+  ESC -- zakończ program
+
+
+Przykładowe wywołania:
+
+  ./main ./models/cube.obj ./textures/cube.DDS
+  ./main ./models/steve.obj ./textures/steve.png
+  ./main ./models/steve.obj ./textures/steve.jpg

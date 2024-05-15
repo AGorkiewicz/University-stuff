@@ -1,0 +1,22 @@
+
+Sterowanie:
+  
+  W, A, S, D / strzałki -- przemieszczanie się
+  Q -- zmniejszenie wysokości
+  E -- zwiększenie wysokości
+  F -- tryb latania
+  G -- tryb widoku z góry
+  myszka -- obrót kamery w trybie latania
+  = -- zmniejszenie kąta widzenia
+  - -- zwiększenie kąta widzenia
+  ESC -- zakończ program
+
+Przykład wywołania:
+
+  ./main ./data/ N54 N59 W6 W10 -start W9 10 N55 -level 3
+
+
+- pierwszy argument: katalog z danymi
+- kolejne argumenty: współrzędne wyznaczające obszar do załadowania
+- start: pozycja startowa
+- level: (of detail) od 1 do 8

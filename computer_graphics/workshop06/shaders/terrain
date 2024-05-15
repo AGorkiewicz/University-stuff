@@ -1,0 +1,32 @@
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+#extension GL_ARB_shading_language_420pack : require
+layout (location = 0) in vec4 input;
+uniform mat4 perspective;
+out float ht;
+
+void main(void)
+{
+	ht = input.w;
+	gl_Position = perspective * vec4(input.xyz, 1.0);
+}
+
+~ SEPARATOR ~
+
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+in float ht;
+out vec4 result;
+
+void main(void)
+{
+	vec3 color;
+
+	if      (ht < 0)    color = vec3(0.0,             0.0,                1.0);                // blue
+	else if (ht < 500)  color = vec3(0.0,             ht/500,             0.0);                // green
+	else if (ht < 1000) color = vec3(ht / 500 - 1.0,  1.0,                0.0);                // yellow
+	else if (ht < 2000) color = vec3(1.0,             2.0 - ht / 1000.0,  0.0);                // red
+	else                color = vec3(1.0,             ht / 2000.0 - 1.0,  ht / 2000.0 - 1.0);  // white
+
+	result = vec4(color, 1.0);
+}
