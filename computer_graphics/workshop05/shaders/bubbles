@@ -1,0 +1,82 @@
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+#extension GL_ARB_shading_language_420pack : require
+layout (location = 0) in vec3 in_pos;
+layout (location = 1) in vec3 offset;
+layout (location = 2) in float scale;
+uniform mat4 unview;
+uniform mat4 perspective;
+out vec3 normal;
+out vec3 vpos;
+
+void main(void)
+{
+	normal = vec3(unview * vec4(in_pos, 0.0));
+	vpos = offset + scale * normal;
+	gl_Position = perspective * vec4(vpos, 1.0);
+}
+
+~ SEPARATOR ~
+
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+in vec3 normal;
+in vec3 vpos;
+out vec4 result;
+uniform vec3 light_pos1;
+uniform vec3 light_pos2;
+uniform vec3 camera_pos;
+
+vec3 CalcPointLight1(vec3 light_pos)
+{
+    vec3 lightDir = normalize(light_pos - vpos);
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 reflectDir = reflect(-lightDir, normal);
+	vec3 viewDir = camera_pos - vpos;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8);
+    float distance = length(light_pos - vpos);
+    float attenuation = 1.0 / (1.0 + 0.07 * distance + 0.017 * (distance * distance));    
+    vec3 ambient = vec3(1.0);
+    vec3 diffuse = diff * vec3(0.5);
+    vec3 specular = spec * vec3(0.5);
+	vec3 result = ambient + diffuse + specular;
+	result *= attenuation;
+    return result;
+}
+
+vec3 CalcPointLight2(vec3 light_pos)
+{
+    vec3 lightDir = normalize(light_pos - vpos);
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 reflectDir = reflect(-lightDir, normal);
+	vec3 viewDir = camera_pos - vpos;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 4);
+    float distance = length(light_pos - vpos);
+    float attenuation = 1.0 / (0.5 + 0.9 * distance + 5 * (distance * distance));    
+    vec3 ambient = vec3(0.0);
+    vec3 diffuse = diff * vec3(1.0);
+    vec3 specular = spec * vec3(0.5);
+	vec3 result = ambient + diffuse + specular;
+	result *= attenuation;
+    result *= vec3(1.0, 0.2, 0.2);
+	return result;
+}
+
+void main(void)
+{
+	vec3 color = vec3(0.6, 0.8, 1.0);
+
+	vec3 light = CalcPointLight1(light_pos1) + CalcPointLight2(light_pos2);
+	
+	color *= light;
+	
+	color.x = min(color.x, 1.0);
+	color.y = min(color.y, 1.0);
+	color.z = min(color.z, 1.0);
+
+	float dist = length(camera_pos - vpos);
+	float darkness = 1.0 / (1.0 + 0.1 * dist + 0.05 * dist * dist);
+	color = darkness * color + (1 - darkness) * vec3(0, 0, 0);
+	
+	result = vec4(color, 0.4);
+} 

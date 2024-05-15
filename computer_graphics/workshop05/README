@@ -1,0 +1,16 @@
+Sterowanie domyślne:
+  W, A, S, D -- przemieszczanie się zgodnie ze skierowaniem
+  myszka -- zmiana skierowania (obrót) gracza oraz kamery
+
+Sterowanie alternatywne:
+  strzałki -- przemieszczanie się w poziomie (w układzie bezwzględnym)
+  W/S -- przemieszczanie się góra/dół.
+  myszka -- obrót kamery
+
+Dodatkowo:
+  C -- zmiana trybu sterowania
+  M -- włącz/wyłącz korzystanie z myszki
+  TAB -- przełącz kamerę na boczną
+  ESC -- zakończ grę
+  = -- zmniejsz kąt widzenia
+  - -- zwiększ kąt widzenia

@@ -1,0 +1,19 @@
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+
+layout(location = 0) uniform float timer;
+in vec4 vcolor;
+in vec2 pos;
+
+out vec4 color;
+
+void main(void) {
+	color = vec4(
+		sin(pos.x * pos.y * 5.0 * timer),
+		sin(2.0 * timer + pos.x * pos.y),
+		sin(3.0 * timer + pos.y),
+		1.0
+	);
+	color = (color + 2.0 * vec4(0.0, 0.0, 0.0, 1.0)) / 3.0;
+}
+

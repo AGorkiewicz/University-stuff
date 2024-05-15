@@ -1,0 +1,14 @@
+#version 330 
+#extension GL_ARB_explicit_uniform_location : require
+in vec3 pos;
+out vec4 color;
+
+void main(void) {
+	color = vec4(
+			sin(pos.x) / 2 + 0.5,
+			sin(pos.y) / 2 + 0.5,
+			sin(pos.z) / 2 + 0.5,
+			1.0);
+	//color = vec4(1, 1, 1, 1);
+} 
+
